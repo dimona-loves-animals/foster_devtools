@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  nginx:
+    build: .
+    depends_on:
+      - web
+      - home
+  db:
+    image: postgres
+  web:
+    build: https://github.com/dimona-loves-animals/foster_server.git
+    command: python manage.py runserver 0.0.0.0:80 --insecure
+    env_file:
+      - .env
+    depends_on:
+      - db
+  home:
+    build: https://github.com/dimona-loves-animals/foster.git
+    environment:
+      NODE_ENV: production
+    depends_on:
+      - web
+
