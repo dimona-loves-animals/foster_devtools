@@ -6,8 +6,15 @@ services:
     depends_on:
       - web
       - home
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.foster-dla.rule=Host(`foster.dimonalovesanimals.org`)"
+      - "traefik.http.routers.foster-dla.entrypoints=websecure"
+      - "traefik.http.routers.foster-dla.tls.certresolver=myresolver"
+
   db:
     image: postgres
+
   web:
     build: https://github.com/dimona-loves-animals/foster_server.git
     command: python manage.py runserver 0.0.0.0:80 --insecure
@@ -15,6 +22,7 @@ services:
       - .env
     depends_on:
       - db
+
   home:
     build: https://github.com/dimona-loves-animals/foster.git
     environment:

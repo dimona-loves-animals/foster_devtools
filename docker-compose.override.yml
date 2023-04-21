@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  nginx:
+    ports:
+      - "4203:80"
+  db:
+    volumes:
+      - ./postgres-data:/var/lib/postgresql
