@@ -3,6 +3,7 @@ version: '3'
 services:
   nginx:
     build: .
+    restart: unless-stopped
     depends_on:
       - web
       - home
@@ -14,9 +15,11 @@ services:
 
   db:
     image: postgres
+    restart: unless-stopped
 
   web:
     build: https://github.com/dimona-loves-animals/foster_server.git
+    restart: unless-stopped
     command: python manage.py runserver 0.0.0.0:80 --insecure
     env_file:
       - .env
@@ -25,6 +28,7 @@ services:
 
   home:
     build: https://github.com/dimona-loves-animals/foster.git
+    restart: unless-stopped
     environment:
       NODE_ENV: production
     depends_on:
